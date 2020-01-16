@@ -23,7 +23,7 @@ export default class App extends React.Component {
           <Button
             backgroundColor="#A6A6A6"
             color="black"
-            text={(this.state.display || this.state.operation) ? 'C' : 'AC'}
+            text={this.state.display || this.state.operation ? 'C' : 'AC'}
             function={() => {
               this.setState({
                 display: '',

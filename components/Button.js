@@ -25,7 +25,9 @@ export default class Button extends React.Component {
             },
           ]}>
           <View>
-            {this.props.children ? this.props.children : (
+            {this.props.children ? (
+              this.props.children
+            ) : (
               <Text
                 style={[
                   this.props.special ? styles.specialText : styles.text,

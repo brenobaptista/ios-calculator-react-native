@@ -6,7 +6,7 @@ export default class Display extends React.Component {
     return (
       <View>
         <Text style={styles.title}>
-          {this.props.display ? this.props.display : '0' }
+          {this.props.display ? this.props.display : '0'}
         </Text>
       </View>
     );
