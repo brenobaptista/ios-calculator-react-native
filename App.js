@@ -309,6 +309,5 @@ const styles = StyleSheet.create({
   },
   icon: {
     textAlign: 'center',
-    paddingTop: 25,
   },
 });

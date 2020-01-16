@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, Dimensions } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Dimensions,
+} from 'react-native';
 
 const { width: WIDTH } = Dimensions.get('window');
 
@@ -13,17 +19,21 @@ export default class Button extends React.Component {
           onPress={this.props.function}
           style={[
             this.props.special ? styles.specialButton : styles.button,
-            { backgroundColor: this.props.backgroundColor },
+            {
+              backgroundColor: this.props.backgroundColor,
+              justifyContent: 'center',
+            },
           ]}>
           <View>
-            {this.props.children}
-            <Text 
-              style={[
-                this.props.special ? styles.specialText : styles.text,
-                { color: this.props.color },
-              ]}>
-              { this.props.text }
-            </Text>
+            {this.props.children ? this.props.children : (
+              <Text
+                style={[
+                  this.props.special ? styles.specialText : styles.text,
+                  { color: this.props.color },
+                ]}>
+                {this.props.text}
+              </Text>
+            )}
           </View>
         </TouchableHighlight>
       </View>
@@ -38,18 +48,16 @@ const styles = StyleSheet.create({
     borderRadius: 38,
   },
   specialButton: {
-    width: (WIDTH - 4*76)/5 + 2*76,
+    width: (WIDTH - 4 * 76) / 5 + 2 * 76,
     height: 76,
     borderRadius: 38,
   },
   specialText: {
     paddingLeft: 27,
-    paddingTop: 18,
     fontSize: 32,
   },
   text: {
     textAlign: 'center',
-    paddingTop: 18,
     fontSize: 32,
   },
 });
