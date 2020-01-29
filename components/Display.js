@@ -1,16 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-export default class Display extends React.Component {
-  render() {
-    return (
-      <View>
-        <Text style={styles.title}>
-          {this.props.display ? this.props.display : '0'}
-        </Text>
-      </View>
-    );
-  }
+export default function Display(props) {
+  return (
+    <View>
+      <Text style={styles.title}>
+        {props.display}
+      </Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

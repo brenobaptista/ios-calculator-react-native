@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -8,11 +8,85 @@ import Display from './components/Display';
 
 let variableA;
 let variableB;
+let result;
 
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
-    display: '',
+    display: 0,
     operation: '',
+    shouldConcatenateDigit: false,
+  };
+
+  concatenateDigit = digit => {
+    if (this.state.shouldConcatenateDigit) {
+      this.setState(prevState => ({
+        display: prevState.display + digit,
+      }));
+    } else {
+      this.setState({
+        display: digit,
+        shouldConcatenateDigit: true,
+      });
+    }
+  };
+
+  activateOperation = operation => {
+    variableA = Number(this.state.display);
+    this.setState({
+      shouldConcatenateDigit: false,
+      operation,
+    });
+  };
+
+  generateResult = () => {
+    switch (this.state.operation) {
+      case 'division':
+        variableB = Number(this.state.display);
+        result = variableA / variableB;
+        this.setState({
+          display: +result.toFixed(5),
+          operation: '',
+        });
+        break;
+      case 'multiplication':
+        variableB = Number(this.state.display);
+        result = variableA * variableB;
+        this.setState({
+          display: +result.toFixed(5),
+          operation: '',
+        });
+        break;
+      case 'subtraction':
+        variableB = Number(this.state.display);
+        result = variableA - variableB;
+        this.setState({
+          display: +result.toFixed(5),
+          // This tweak fixes erros like 0.3 - 0.2 !== 0.1
+          operation: '',
+        });
+        break;
+      case 'addition':
+        variableB = Number(this.state.display);
+        result = variableA + variableB;
+        this.setState({
+          display: +result.toFixed(5),
+          // This tweak fixes errors like 0.1 + 0.2 !== 0.3
+          operation: '',
+        });
+        break;
+    }
+  };
+
+  cancelButton = () => {
+    if (!this.state.shouldConcatenateDigit && this.state.display === 0) {
+      this.setState({
+        operation: '',
+      });
+    }
+    this.setState({
+      display: 0,
+      shouldConcatenateDigit: false,
+    });
   };
 
   render() {
@@ -23,13 +97,8 @@ export default class App extends React.Component {
           <Button
             backgroundColor="#A6A6A6"
             color="black"
-            text={this.state.display || this.state.operation ? 'C' : 'AC'}
-            function={() => {
-              this.setState({
-                display: '',
-                operation: '',
-              });
-            }}
+            text={this.state.display ? 'C' : 'AC'}
+            function={() => this.cancelButton()}
           />
           <Button
             backgroundColor="#A6A6A6"
@@ -58,13 +127,7 @@ export default class App extends React.Component {
             }
             color={this.state.operation === 'division' ? '#FF9404' : 'white'}
             text="÷"
-            function={() => {
-              variableA = Number(this.state.display);
-              this.setState({
-                display: '',
-                operation: 'division',
-              });
-            }}
+            function={() => this.activateOperation('division')}
           />
         </View>
         <View style={styles.row}>
@@ -72,44 +135,26 @@ export default class App extends React.Component {
             backgroundColor="#333333"
             color="white"
             text="7"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '7',
-              }))
-            }
+            function={() => this.concatenateDigit('7')}
           />
           <Button
             backgroundColor="#333333"
             color="white"
             text="8"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '8',
-              }))
-            }
+            function={() => this.concatenateDigit('8')}
           />
           <Button
             backgroundColor="#333333"
             color="white"
             text="9"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '9',
-              }))
-            }
+            function={() => this.concatenateDigit('9')}
           />
           <Button
             orange
             backgroundColor={
               this.state.operation === 'multiplication' ? 'white' : '#FF9404'
             }
-            function={() => {
-              variableA = Number(this.state.display);
-              this.setState({
-                display: '',
-                operation: 'multiplication',
-              });
-            }}>
+            function={() => this.activateOperation('multiplication')}>
             <Feather
               name={'x'}
               size={25}
@@ -125,44 +170,26 @@ export default class App extends React.Component {
             backgroundColor="#333333"
             color="white"
             text="4"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '4',
-              }))
-            }
+            function={() => this.concatenateDigit('4')}
           />
           <Button
             backgroundColor="#333333"
             color="white"
             text="5"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '5',
-              }))
-            }
+            function={() => this.concatenateDigit('5')}
           />
           <Button
             backgroundColor="#333333"
             color="white"
             text="6"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '6',
-              }))
-            }
+            function={() => this.concatenateDigit('6')}
           />
           <Button
             orange
             backgroundColor={
               this.state.operation === 'subtraction' ? 'white' : '#FF9404'
             }
-            function={() => {
-              variableA = Number(this.state.display);
-              this.setState({
-                display: '',
-                operation: 'subtraction',
-              });
-            }}>
+            function={() => this.activateOperation('subtraction')}>
             <Feather
               name={'minus'}
               size={25}
@@ -178,44 +205,26 @@ export default class App extends React.Component {
             backgroundColor="#333333"
             color="white"
             text="1"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '1',
-              }))
-            }
+            function={() => this.concatenateDigit('1')}
           />
           <Button
             backgroundColor="#333333"
             color="white"
             text="2"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '2',
-              }))
-            }
+            function={() => this.concatenateDigit('2')}
           />
           <Button
             backgroundColor="#333333"
             color="white"
             text="3"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '3',
-              }))
-            }
+            function={() => this.concatenateDigit('3')}
           />
           <Button
             orange
             backgroundColor={
               this.state.operation === 'addition' ? 'white' : '#FF9404'
             }
-            function={() => {
-              variableA = Number(this.state.display);
-              this.setState({
-                display: '',
-                operation: 'addition',
-              });
-            }}>
+            function={() => this.activateOperation('addition')}>
             <Feather
               name={'plus'}
               size={25}
@@ -230,11 +239,7 @@ export default class App extends React.Component {
             backgroundColor="#333333"
             color="white"
             text="0"
-            function={() =>
-              this.setState(prevState => ({
-                display: prevState.display + '0',
-              }))
-            }
+            function={() => this.concatenateDigit('0')}
           />
           <Button
             backgroundColor="#333333"
@@ -244,6 +249,7 @@ export default class App extends React.Component {
               if (Math.round(this.state.display) == this.state.display) {
                 this.setState(prevState => ({
                   display: prevState.display + '.',
+                  shouldConcatenateDigit: true,
                 }));
               }
             }}
@@ -253,38 +259,7 @@ export default class App extends React.Component {
             backgroundColor="#FF9404"
             color="white"
             text="="
-            function={() => {
-              switch (this.state.operation) {
-                case 'division':
-                  variableB = Number(this.state.display);
-                  this.setState({
-                    display: variableA / variableB,
-                    operation: '',
-                  });
-                  break;
-                case 'multiplication':
-                  variableB = Number(this.state.display);
-                  this.setState({
-                    display: variableA * variableB,
-                    operation: '',
-                  });
-                  break;
-                case 'subtraction':
-                  variableB = Number(this.state.display);
-                  this.setState(prevState => ({
-                    display: variableA - variableB,
-                    operation: '',
-                  }));
-                  break;
-                case 'addition':
-                  variableB = Number(this.state.display);
-                  this.setState({
-                    display: variableA + variableB,
-                    operation: '',
-                  });
-                  break;
-              }
-            }}
+            function={() => this.generateResult()}
           />
         </View>
       </View>
