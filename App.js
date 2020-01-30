@@ -3,8 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import Feather from 'react-native-vector-icons/Feather';
 
-import Button from './components/Button';
-import Display from './components/Display';
+import Button from './src/components/Button';
+import Display from './src/components/Display';
 
 let variableA;
 let variableB;
@@ -89,6 +89,27 @@ export default class App extends Component {
     });
   };
 
+  addDot = () => {
+    if (Math.round(this.state.display) == this.state.display) {
+      this.setState(prevState => ({
+        display: prevState.display + '.',
+        shouldConcatenateDigit: true,
+      }));
+    }
+  };
+
+  percentage = () => {
+    this.setState(prevState => ({
+      display: prevState.display / 100,
+    }));
+  }
+
+  invertSignal = () => {
+    this.setState(prevState => ({
+      display: (prevState.display *= -1),
+    }));
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -104,21 +125,13 @@ export default class App extends Component {
             backgroundColor="#A6A6A6"
             color="black"
             text="+/-"
-            function={() => {
-              this.setState(prevState => ({
-                display: (prevState.display *= -1),
-              }));
-            }}
+            function={() => this.invertSignal()}
           />
           <Button
             backgroundColor="#A6A6A6"
             color="black"
             text="%"
-            function={() => {
-              this.setState(prevState => ({
-                display: prevState.display / 100,
-              }));
-            }}
+            function={() => this.percentage()}
           />
           <Button
             orange
@@ -245,14 +258,7 @@ export default class App extends Component {
             backgroundColor="#333333"
             color="white"
             text="."
-            function={() => {
-              if (Math.round(this.state.display) == this.state.display) {
-                this.setState(prevState => ({
-                  display: prevState.display + '.',
-                  shouldConcatenateDigit: true,
-                }));
-              }
-            }}
+            function={() => this.addDot()}
           />
           <Button
             orange
