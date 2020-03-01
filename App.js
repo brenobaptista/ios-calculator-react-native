@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 import Feather from 'react-native-vector-icons/Feather';
 
 import Button from './src/components/Button';
@@ -17,9 +16,9 @@ export default class App extends Component {
     shouldConcatenateDigit: false,
   };
 
-  concatenateDigit = digit => {
+  concatenateDigit = (digit) => {
     if (this.state.shouldConcatenateDigit) {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         display: prevState.display + digit,
       }));
     } else {
@@ -30,7 +29,7 @@ export default class App extends Component {
     }
   };
 
-  activateOperation = operation => {
+  activateOperation = (operation) => {
     variableA = Number(this.state.display);
     this.setState({
       shouldConcatenateDigit: false,
@@ -74,6 +73,8 @@ export default class App extends Component {
           operation: '',
         });
         break;
+      default:
+        return null;
     }
   };
 
@@ -90,23 +91,23 @@ export default class App extends Component {
   };
 
   addDot = () => {
-    if (Math.round(this.state.display) == this.state.display) {
-      this.setState(prevState => ({
-        display: prevState.display + '.',
+    if (Math.round(this.state.display) === Number(this.state.display)) {
+      this.setState((prevState) => ({
+        display: `${prevState.display}.`,
         shouldConcatenateDigit: true,
       }));
     }
   };
 
   percentage = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       display: prevState.display / 100,
     }));
   }
 
   invertSignal = () => {
-    this.setState(prevState => ({
-      display: (prevState.display *= -1),
+    this.setState((prevState) => ({
+      display: prevState.display * -1,
     }));
   }
 
@@ -167,9 +168,10 @@ export default class App extends Component {
             backgroundColor={
               this.state.operation === 'multiplication' ? 'white' : '#FF9404'
             }
-            function={() => this.activateOperation('multiplication')}>
+            function={() => this.activateOperation('multiplication')}
+          >
             <Feather
-              name={'x'}
+              name="x"
               size={25}
               color={
                 this.state.operation === 'multiplication' ? '#FF9404' : 'white'
@@ -202,9 +204,10 @@ export default class App extends Component {
             backgroundColor={
               this.state.operation === 'subtraction' ? 'white' : '#FF9404'
             }
-            function={() => this.activateOperation('subtraction')}>
+            function={() => this.activateOperation('subtraction')}
+          >
             <Feather
-              name={'minus'}
+              name="minus"
               size={25}
               color={
                 this.state.operation === 'subtraction' ? '#FF9404' : 'white'
@@ -237,9 +240,10 @@ export default class App extends Component {
             backgroundColor={
               this.state.operation === 'addition' ? 'white' : '#FF9404'
             }
-            function={() => this.activateOperation('addition')}>
+            function={() => this.activateOperation('addition')}
+          >
             <Feather
-              name={'plus'}
+              name="plus"
               size={25}
               color={this.state.operation === 'addition' ? '#FF9404' : 'white'}
               style={styles.icon}
@@ -277,7 +281,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: 'black',
     padding: 8,
     paddingBottom: 14,

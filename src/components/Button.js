@@ -22,7 +22,8 @@ export default function Button(props) {
             backgroundColor: props.backgroundColor,
             justifyContent: 'center',
           },
-        ]}>
+        ]}
+      >
         <View>
           {props.children ? (
             props.children
@@ -31,7 +32,8 @@ export default function Button(props) {
               style={[
                 props.special ? styles.specialText : styles.text,
                 { color: props.color },
-              ]}>
+              ]}
+            >
               {props.text}
             </Text>
           )}
