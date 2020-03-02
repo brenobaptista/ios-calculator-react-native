@@ -13,7 +13,7 @@
 
 ## Getting Started
 
-1. Install and configure Genymotion (Android emulator).
+1. Install and configure [Genymotion](https://www.genymotion.com) (free personal Android emulator).
 2. Install Expo CLI (npm i -g expo-cli), then use it (expo start --android) while your Android emulator is running.
 
 ## Screenshots
@@ -42,4 +42,4 @@ Please contribute using [Github Flow](https://guides.github.com/introduction/flo
 
 ## License
 
-This project is licensed under the [MIT License](/LICENSE)
+This project is licensed under the [GPL-3.0 License](/LICENSE)
